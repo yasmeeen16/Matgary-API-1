@@ -65,8 +65,8 @@ Router.get('/allsubCategory/:catId',function(req,resp,next){
 
  //console.log(catId);
     subCategoryModel.find({catId:req.params.catId}, function(err, subcategories) {
-                    //resp.json({  subcategories: subcategories});
-                      resp.render("content/listSubCat.ejs",{subcategories: subcategories});
+                    resp.json({  subcategories: subcategories});
+                      //resp.render("content/listSubCat.ejs",{subcategories: subcategories});
                   });
 
 });
