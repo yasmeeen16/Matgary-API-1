@@ -61,8 +61,8 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
 Router.get('/allCategory',function(req,resp,next){
 
     categoryModel.find({}, function(err, categories) {
-                      resp.render("content/listCat.ejs",{  categories:  categories});
-                      //resp.json({  categories:  categories});
+                      //resp.render("content/listCat.ejs",{  categories:  categories});
+                      resp.json({  categories:  categories});
                   });
 
 });
