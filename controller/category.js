@@ -13,10 +13,10 @@ var categoryDataModel = mongoose.model("Category");
 
 var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
-// Router.get('/addCategory',function(req,resp,next){
-//   //resp.json({msg:"add"});
-//   resp.render("content/addcatt.ejs");
-// });
+Router.get('/addCategory',function(req,resp,next){
+  //resp.json({msg:"add"});
+  resp.render("content/addcatt.ejs");
+});
 var categoryModel = mongoose.model("Category");
 Router.get('/',function(req,resp,next){
 

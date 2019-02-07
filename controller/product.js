@@ -14,13 +14,13 @@ var subCategoryModel = mongoose.model("subCategory");
 
 var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
-// Router.get('/addProduct/:subcatId',function(req,resp,next){
-// //console.log(req.params.subcatId);
-// subCategoryModel.findOne({_id:req.params.subcatId }, function(err, category) {
-//     //resp.json({category:category});
-//     resp.render("content/addproduct.ejs",{category:category});
-// })
-// });
+Router.get('/addProduct/:subcatId',function(req,resp,next){
+//console.log(req.params.subcatId);
+subCategoryModel.findOne({_id:req.params.subcatId }, function(err, category) {
+    //resp.json({category:category});
+    resp.render("content/addproduct.ejs",{category:category});
+})
+});
 Router.post("/addProduct/:subcatId",uploadMid.any(),function(req,resp){
   //resp.json(req.body);
   console.log(req.params.subcatId);

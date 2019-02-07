@@ -21,17 +21,6 @@ server.set("view engine","ejs");
 server.set("views","./views");
 server.use(express.static(path.join(__dirname, 'public')));
 
-var AuthRouts = require('./controller/authClient');
-server.use('/authClient',AuthRouts);
-require('./Model/clientData');
-
-
-var AuthRoutsVendor = require('./controller/authVendor');
-server.use('/authVendor',AuthRoutsVendor);
-require('./Model/vendorData');
-
-
-
 var RouteCategory = require('./controller/category');
 server.use('/category',RouteCategory);
 require('./Model/Category');
@@ -44,14 +33,6 @@ require('./Model/product');
 var RoutesubCategory = require('./controller/subCategory');
 server.use('/subcategory',RoutesubCategory);
 require('./Model/subCategory');
-
-var RoutePortflio = require('./controller/portflio');
-server.use('/portflio',RoutePortflio);
-require('./Model/Portflio');
-
-var RoutePortflio = require('./controller/orders');
-server.use('/orders',RoutePortflio);
-require('./Model/orders');
 
 server.listen(PORT,function(){
   console.log('server listen at port number '+PORT);
