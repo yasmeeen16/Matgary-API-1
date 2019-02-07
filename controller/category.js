@@ -17,6 +17,16 @@ var uploadMid = multer({dest:"./public/imgs"});
 //   //resp.json({msg:"add"});
 //   resp.render("content/addcatt.ejs");
 // });
+var categoryModel = mongoose.model("Category");
+Router.get('/',function(req,resp,next){
+
+  categoryModel.find({}, function(err, categories) {
+                    resp.render("content/listCat.ejs",{  categories:  categories});
+                    //resp.json({  categories:  categories});
+                });
+
+
+});
 Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
 
   var Ename = req.body.Ename;
@@ -47,7 +57,7 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
 });
 
 });
-var categoryModel = mongoose.model("Category");
+
 Router.get('/allCategory',function(req,resp,next){
 
     categoryModel.find({}, function(err, categories) {

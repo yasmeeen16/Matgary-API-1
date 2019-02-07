@@ -35,6 +35,7 @@ require('./Model/vendorData');
 var RouteCategory = require('./controller/category');
 server.use('/category',RouteCategory);
 require('./Model/Category');
+server.use("/",RouteCategory);
 
 var RouteProduct = require('./controller/product');
 server.use('/product',RouteProduct);
