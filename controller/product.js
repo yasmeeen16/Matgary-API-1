@@ -14,13 +14,18 @@ var subCategoryModel = mongoose.model("subCategory");
 
 var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
+
+
 Router.get('/addProduct/:subcatId',function(req,resp,next){
-//console.log(req.params.subcatId);
-subCategoryModel.findOne({_id:req.params.subcatId }, function(err, category) {
-    //resp.json({category:category});
-    resp.render("content/addproduct.ejs",{category:category});
-})
+        //console.log(req.params.subcatId);
+        subCategoryModel.findOne({_id:req.params.subcatId }, function(err, category) {
+            //resp.json({category:category});
+            resp.render("content/addproduct.ejs",{category:category});
+        })
 });
+
+
+//add produc to sub category
 Router.post("/addProduct/:subcatId",uploadMid.any(),function(req,resp){
   //resp.json(req.body);
   console.log(req.params.subcatId);
@@ -76,7 +81,73 @@ Router.post("/addProduct/:subcatId",uploadMid.any(),function(req,resp){
                                 specificationEnglish:req.body.specificationEnglish,
                                 specificationArabic:req.body.specificationArabic,
                                 quantity:req.body.quantity,
-                                sellingquantity:req.body.sellingquantity,
+                                status:req.body.status,
+                                time:Date.now()
+                              });//object of product
+                              product.save(function(err) {
+                                    if(err){
+                                        console.log(err);
+                                        return;
+                                      }else
+                                      //resp.redirect('//');
+                                      resp.json({  product :  product});
+
+                                    });//save the object
+                          //  }
+                        //});
+        //}
+
+});
+//add produc to category
+Router.post("/addProduct2/:catId",uploadMid.any(),function(req,resp){
+  //resp.json(req.body);
+  console.log(req.params.catId);
+    var imgs = [];
+
+        // req.checkBody('name','name is empty').notEmpty();
+        // req.checkBody('desc','description is empty').notEmpty();
+        // req.checkBody('price','price is empty').notEmpty();
+        // req.checkBody('hotelName','hotel name is empty').notEmpty();
+        // let errors = req.validationErrors();
+        // if(errors){
+        //   resp.redirect('/umrah/addUmrah');
+        //   // return resp.status(409).json({
+        //   //   message:"enter your data"
+        //   // });
+        // }else{
+          if (req.files.length > 0){
+            for(var i=0 ; i < req.files.length ; i++ ){
+              if(req.files[i].fieldname === "imgs"){
+                imgs.push(req.files[i].filename);
+              }
+            }//end for
+          }// end if
+          // umrahModel.find({name:req.body.name ,desc:req.body.desc,price:req.body.price,hotelName: req.body.hotelName,
+          //   contact:req.body.contact}, function(err, omraTrips) {
+          //                   //resp.json({   omraTrips: omraTrips});
+          //                   if(omraTrips.length > 0){
+          //                     resp.redirect('/umrah/addUmrah');
+          //                     //resp.json({ msg : "duplicate omra trip" });
+          //                   }else{
+                              var product = new productModel({
+                                Ename:req.body.Ename,
+                                Aname:req.body.Aname,
+                                modelnumber:req.body.modelnumber,
+                                brandArabic:req.body.brandArabic,
+                                brandEnglish:req.body.brandEnglish,
+                                imgs:imgs,
+                                catId:req.params.catId,
+                                discount:req.body.discount,
+                                discriptionEnglish:req.body.discriptionEnglish,
+                                discriptionArabic:req.body.discriptionArabic,
+                                tagsArabic:req.body.tagsArabic,
+                                tagsEnglish:req.body.tagsEnglish,
+                                freeshipping:req.body.freeshipping,
+                                heighlightEnglish:req.body.heighlightEnglish,
+                                heighlightArabic:req.body.heighlightArabic,
+                                specificationEnglish:req.body.specificationEnglish,
+                                specificationArabic:req.body.specificationArabic,
+                                quantity:req.body.quantity,
                                 status:req.body.status,
                                 time:Date.now()
                               });//object of product
@@ -95,5 +166,24 @@ Router.post("/addProduct/:subcatId",uploadMid.any(),function(req,resp){
 
 });
 
+Router.get('/allproductsOfCategory/:catId',function(req,resp,next){
+
+ //console.log(catId);
+    productModel.find({catId:req.params.catId}, function(err, products) {
+                    resp.json({  products: products});
+                      //resp.render("content/listSubCat.ejs",{subcategories: subcategories});
+                  });
+
+});
+
+Router.get('/allproductsOfSubCategory/:subcatId',function(req,resp,next){
+
+ //console.log(catId);
+    productModel.find({subcatId:req.params.subcatId}, function(err, products) {
+                    resp.json({ products: products});
+                      //resp.render("content/listSubCat.ejs",{subcategories: subcategories});
+                  });
+
+});
 
 module.exports=Router;

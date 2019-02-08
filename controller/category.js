@@ -9,7 +9,8 @@ var mongoose = require("mongoose");
 require("../Model/Category");
 
 var categoryDataModel = mongoose.model("Category");
-
+require("../Model/product");
+var productModel = mongoose.model("product");
 
 var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
@@ -66,4 +67,9 @@ Router.get('/allCategory',function(req,resp,next){
                   });
 
 });
+
+
+
+
+
 module.exports=Router;
