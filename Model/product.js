@@ -9,11 +9,11 @@ var product = new Schema ({
   brandArabic:String,
   brandEnglish:String,
   offer:{
-    AName:String,
-    EName:String,
-    img:String
-  },
+    Aname:{type:String,default:0},
+    Ename:{type:String,default:0},
+    img:{type:String,default:0}
 
+  },
   imgs:[String],
   price1:String,
   price2:String,

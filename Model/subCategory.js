@@ -11,9 +11,9 @@ var subCategory = new Schema ({
   Ename:String,
   img:String,
   offer:{
-    AName:String,
-    EName:String,
-    img:String
+    Aname:{type:String,default:0},
+    Ename:{type:String,default:0},
+    img:{type:String,default:0}
 
   },
   time:{
