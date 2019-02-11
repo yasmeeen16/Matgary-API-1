@@ -23,7 +23,8 @@ var categoryModel = mongoose.model("Category");
 Router.get('/',function(req,resp,next){
 
   categoryModel.find({}, function(err, categories) {
-                    resp.render("content/listCat.ejs",{  categories:  categories});
+    resp.render("content/cat.ejs",{  categories:  categories});
+                    //resp.render("content/listCat.ejs",{  categories:  categories});
                     //resp.json({  categories:  categories});
                 });
 
@@ -86,9 +87,4 @@ Router.get('/allCategory',function(req,resp,next){
                   });
 
 });
-
-
-
-
-
 module.exports=Router;
