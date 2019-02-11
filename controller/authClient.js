@@ -111,8 +111,8 @@ Router.get('/addtoWishList',function(req,resp){
 });
 //UnLike
 Router.get('/removeFromWishList',function(req,resp){
-    console.log(req.query.pId);
-    console.log(req.query.cId);
+    // console.log(req.query.pId);
+    // console.log(req.query.cId);
       clientModel.update({_id:req.query.cId},{$pull: {"wishList": {"productId": req.query.pId}}},function(err,result){
             if(err){
               resp.json(err);
@@ -123,4 +123,34 @@ Router.get('/removeFromWishList',function(req,resp){
       });
 });
 
+
+//add product to card
+Router.post('/addproducttocard',BodyParserMid,function(req,resp){
+    // console.log(req.query.pId);
+    // console.log(req.query.cId);
+
+      clientModel.update({_id:req.query.cId},{$addToSet: {"card": {"productId": req.query.pId,"quantity":req.body.quantity}}},function(err,result){
+            if(err){
+              resp.json(err);
+            }else{
+              resp.json({result:"add to card success"});
+            }
+
+      });
+});
+
+//remove product from card
+Router.get('/removefromcard',BodyParserMid,function(req,resp){
+    // console.log(req.query.pId);
+    // console.log(req.query.cId);
+
+      clientModel.update({_id:req.query.cId},{$pull: {"card": {"productId": req.query.pId}}},function(err,result){
+            if(err){
+              resp.json(err);
+            }else{
+              resp.json({result:"remove from card success"});
+            }
+
+      });
+});
 module.exports=Router;

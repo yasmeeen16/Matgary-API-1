@@ -14,6 +14,15 @@ var clientData = new Schema ({
       default:Date.now()
     }
   }],
+  card:[{
+    productId:{type:String,default:0},
+    time:{
+      type:Date,
+      default:Date.now()
+    },
+    quantity:Number,
+    status:{type:Number,default:0}
+  }],
   time:{
     type:Date,
     default:Date.now()

@@ -185,5 +185,33 @@ Router.get('/allproductsOfSubCategory/:subcatId',function(req,resp,next){
                   });
 
 });
+//add review to product
+Router.post('/addreviewtoproduct',BodyParserMid,function(req,resp){
+    // console.log(req.query.pId);
+    // console.log(req.query.cId);
+//resp.json(req.body)
+      productModel.update({_id: req.query.pId},{$addToSet: {"reviews": {"userId":req.query.cId,"title":req.body.title,"desc":req.body.desc}}},function(err,result){
+            if(err){
+              resp.json(err);
+            }else{
+              resp.json({result:"add review success"});
+            }
+
+      });
+});
+//remove review from product
+Router.get('/removefromcard',function(req,resp){
+    // console.log(req.query.pId);
+    // console.log(req.query.cId);
+
+      productModel.update({_id:req.query.pId},{$pull: {"reviews": {"userId":req.query.cId}}},function(err,result){
+            if(err){
+              resp.json(err);
+            }else{
+              resp.json({result:"remove from card success"});
+            }
+
+      });
+});
 
 module.exports=Router;

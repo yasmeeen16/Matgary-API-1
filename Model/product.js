@@ -25,7 +25,11 @@ var product = new Schema ({
             type:Schema.ObjectId,
             ref:"subCategory"
         },
-
+        reviews:[{
+          userId:{type:Schema.ObjectId},
+          title:{type:String},
+          desc:{type:String}
+        }],
   discount:String,
   discriptionEnglish:String,
   discriptionArabic:String,
