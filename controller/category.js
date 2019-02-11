@@ -4,6 +4,7 @@ var BodyParser = require('body-parser');
 var expressValidato = require('express-validator');
 var BodyParserMid = BodyParser.urlencoded();//middle ware to get data from request body
 const path = require('path');
+const fs = require("fs");
 var mongoose = require("mongoose");
 
 require("../Model/Category");
@@ -32,7 +33,22 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
 
   var Ename = req.body.Ename;
   var Aname = req.body.Aname;
-  var img = req.body.img;
+  var img = req.file;
+//resp.json(req.file)
+  req.checkBody('Ename','english name is empty').notEmpty();
+  req.checkBody('Aname','arabic name is empty').notEmpty();
+
+  let errors = req.validationErrors();
+  if(errors){
+    resp.json(errors);
+  }else{
+        if(img){
+
+                ext=img.originalname;
+                ext2=ext.split('.');
+                fs.renameSync(img.path,img.destination+"/"+img.filename+'.'+ext2[1] );
+                img = img.filename+'.'+ext2[1];
+                console.log(img);
 
       categoryDataModel.find({Ename:req.body.Ename ,Aname:req.body.Aname}, function(err, category) {
                             if(category.length > 0){
@@ -41,7 +57,7 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
                               var myCategory = new categoryDataModel({
                                 Ename:req.body.Ename,
                                 Aname: req.body.Aname,
-                                img:req.file.filename,
+                                img:img,
                                 time:new Date()
                               });
                               myCategory.save(function(err,doc){
@@ -55,8 +71,11 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
 
                             }
 
-});
-
+                          });
+                    }else{
+                      resp.json({msg:"upload your img"})
+                    }
+                  }
 });
 
 Router.get('/allCategory',function(req,resp,next){

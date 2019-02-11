@@ -7,7 +7,7 @@ const path = require('path');
 var mongoose = require("mongoose");
 require("../Model/subCategory");
 require("../Model/Category");
-
+const fs =require("fs");
 var categoryDataModel = mongoose.model("Category");
 var subCategoryModel = mongoose.model("subCategory");
 
@@ -30,36 +30,54 @@ console.log((req.params.catId));
   //var categoryId = mongoose.Types.ObjectId(req.param.categoryId);
   //var categoryId = req.body.categoryId;
   //var catId = req.param.catId;
-
   var Ename = req.body.Ename;
   var Aname = req.body.Aname;
+  var img = req.file;
+//resp.json(req.file)
+  req.checkBody('Ename','english name is empty').notEmpty();
+  req.checkBody('Aname','arabic name is empty').notEmpty();
+
+  let errors = req.validationErrors();
+  if(errors){
+    resp.json(errors);
+  }else{
+        if(img){
+
+                          ext=img.originalname;
+                          ext2=ext.split('.');
+                          fs.renameSync(img.path,img.destination+"/"+img.filename+'.'+ext2[1] );
+                          img = img.filename+'.'+ext2[1];
+                          console.log(img);
+                          subCategoryModel.find({Ename:req.body.Ename }, function(err, category) {
+                                                if(err){
+                                                  resp.json(err);
+                                                }else if(category.length > 0){
+                                                  resp.json({ msg : "duplicate category" });
+                                                }else{
+                                                  var mysubCategory = new subCategoryModel({
+                                                    catId:req.params.catId,
+                                                    Ename: req.body.Ename,
+                                                    Aname: req.body.Aname,
+                                                    img:req.file.filename,
+                                                    time:new Date()
+                                                  });
+                                                  mysubCategory.save(function(err,doc){
+                                                    if(err){
+                                                      resp.json(err);
+                                                  }else{
+                                                      console.log("saved")
+                                                      resp.json(doc);
+                                                  }
+                                                  });
+
+                                                }
+
+                                              });
+        }else{
+          resp.json({msg:"upload your img"})
+        }
+      }
 //console.log(parseInt(req.param.catId));
-      subCategoryModel.find({Ename:req.body.Ename }, function(err, category) {
-                            if(err){
-                              resp.json(err);
-                            }else if(category.length > 0){
-                              resp.json({ msg : "duplicate category" });
-                            }else{
-                              var mysubCategory = new subCategoryModel({
-                                catId:req.params.catId,
-                                Ename: req.body.Ename,
-                                Aname: req.body.Aname,
-                                img:req.file.filename,
-                                time:new Date()
-                              });
-                              mysubCategory.save(function(err,doc){
-                                if(err){
-                                  resp.json(err);
-                              }else{
-                                  console.log("saved")
-                                  resp.json(doc);
-                              }
-                              });
-
-                            }
-
-});
-
 });
 Router.get('/allsubCategory/:catId',function(req,resp,next){
 
