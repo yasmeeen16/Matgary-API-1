@@ -58,7 +58,7 @@ console.log((req.params.catId));
                                                     catId:req.params.catId,
                                                     Ename: req.body.Ename,
                                                     Aname: req.body.Aname,
-                                                    img:req.file.filename,
+                                                    img:img,
                                                     time:new Date()
                                                   });
                                                   mysubCategory.save(function(err,doc){
