@@ -15,6 +15,7 @@ var categoryDataModel = mongoose.model("Category");
 var productModel = mongoose.model("product");
 var subCategoryModel = mongoose.model("subCategory");
 //add offer to category
+
 Router.post('/addOfferToCategory/:catId',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
 
   var Ename = req.body.Ename;

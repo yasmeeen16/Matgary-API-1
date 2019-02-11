@@ -21,6 +21,14 @@ server.set("view engine","ejs");
 server.set("views","./views");
 server.use(express.static(path.join(__dirname, 'public')));
 
+var AuthRouts = require('./controller/authClient');
+server.use('/authClient',AuthRouts);
+require('./Model/clientData');
+
+var AuthRoutsVendor = require('./controller/authVendor');
+server.use('/authVendor',AuthRoutsVendor);
+require('./Model/vendorData');
+
 var RouteCategory = require('./controller/category');
 server.use('/category',RouteCategory);
 require('./Model/Category');
