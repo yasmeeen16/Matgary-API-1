@@ -24,6 +24,7 @@ var categoryModel = mongoose.model("Category");
 Router.get('/',function(req,resp,next){
 
   categoryModel.find({}, function(err, categories) {
+    //console.log(categories[0].img);
     resp.render("content/cat.ejs",{  categories:  categories});
                     //resp.render("content/listCat.ejs",{  categories:  categories});
                     //resp.json({  categories:  categories});
@@ -32,11 +33,11 @@ Router.get('/',function(req,resp,next){
 
 });
 Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
-
-  var Ename = req.body.Ename;
-  var Aname = req.body.Aname;
-  var img = req.file;
-//resp.json(req.file)
+//resp.json(req.file);
+//   var Ename = req.body.Ename;
+//   var Aname = req.body.Aname;
+   var img = req.file;
+// //resp.json(req.file)
   req.checkBody('Ename','english name is empty').notEmpty();
   req.checkBody('Aname','arabic name is empty').notEmpty();
 
@@ -50,13 +51,13 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
                 ext2=ext.split('.');
                 console.log(img.path);
                 console.log(img.destination);
-                // console.log(img.destination+"/"+img.filename+'.'+ext2[1]);
-                // var NewPath = img.destination+"/"+img.filename+'.'+ext2[1];
+                // // console.log(img.destination+"/"+img.filename+'.'+ext2[1]);
+                // // var NewPath = img.destination+"/"+img.filename+'.'+ext2[1];
                 fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
                 console.log(img.path);
-                resp.json(req.file);
+                // resp.json(req.file);
                 img = req.file.filename+'.'+ext2[1];
-              //  console.log(img);
+                console.log(img);
 
       categoryDataModel.find({Ename:req.body.Ename ,Aname:req.body.Aname}, function(err, category) {
                             if(category.length > 0){
@@ -76,11 +77,8 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
                                   resp.json(doc);
                               }
                               });
-
                             }
-
                           });
-
                   }
 });
 
