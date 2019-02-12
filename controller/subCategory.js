@@ -98,4 +98,13 @@ Router.get('/all_subCategory/:catId',function(req,resp,next){
 
 });
 
+Router.get('/all_subCategory',function(req,resp,next){
+
+ //console.log(catId);
+    subCategoryModel.find({}, function(err, subcategories) {
+                    resp.json({  subcategories: subcategories});
+                    //resp.render("content/subcat.ejs",{subcategories: subcategories});
+                  });
+
+});
 module.exports=Router;
