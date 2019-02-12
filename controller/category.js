@@ -24,7 +24,6 @@ var categoryModel = mongoose.model("Category");
 Router.get('/',function(req,resp,next){
 
   categoryModel.find({}, function(err, categories) {
-    console.log(categories[0].img);
     resp.render("content/cat.ejs",{  categories:  categories});
                     //resp.render("content/listCat.ejs",{  categories:  categories});
                     //resp.json({  categories:  categories});
