@@ -47,9 +47,15 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
 
                 ext=img.originalname;
                 ext2=ext.split('.');
-                fs.renameSync(img.path,img.destination+"/"+img.filename+'.'+ext2[1] );
-                img = img.filename+'.'+ext2[1];
-                console.log(img);
+                console.log(img.path);
+                console.log(img.destination);
+                // console.log(img.destination+"/"+img.filename+'.'+ext2[1]);
+                // var NewPath = img.destination+"/"+img.filename+'.'+ext2[1];
+                fs.renameSync(req.file.path, req.file.destination+"/"+req.file.filename+"."+ext2[1] );
+                console.log(img.path);
+                resp.json(req.file);
+                img = req.file.filename+'.'+ext2[1];
+              //  console.log(img);
 
       categoryDataModel.find({Ename:req.body.Ename ,Aname:req.body.Aname}, function(err, category) {
                             if(category.length > 0){

@@ -21,6 +21,9 @@ server.set("view engine","ejs");
 server.set("views","./views");
 server.use(express.static(path.join(__dirname, 'public')));
 
+var multer = require("multer");//to upload file
+var uploadMid = multer({dest:"./public/imgs"});
+
 var AuthRouts = require('./controller/authClient');
 server.use('/authClient',AuthRouts);
 require('./Model/clientData');
