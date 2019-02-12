@@ -38,6 +38,9 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
 //   var Aname = req.body.Aname;
    var img = req.file;
 // //resp.json(req.file)
+  if(!img){
+    resp.json({msg:"upload your img "})
+  }else{
   req.checkBody('Ename','english name is empty').notEmpty();
   req.checkBody('Aname','arabic name is empty').notEmpty();
 
@@ -80,6 +83,7 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
                             }
                           });
                   }
+                }
 });
 
 Router.get('/allCategory',function(req,resp,next){
