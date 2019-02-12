@@ -131,6 +131,41 @@
 <th style="width: 10%">Action</th>
                                         </thead>
                                         <tbody>
+                                          <tr>
+
+                                              <td>
+
+                                                <div class="product">
+                                                      <div class="product-img"><img  src="/imgs/1.jpg"> </div>
+                                                      <div class="contain" style="display: flex;flex-direction: column">
+
+                                                           <div class="product-data">
+                                                              <a href=""><%= categories[0].Ename  %></a>
+
+
+                                                          </div>
+                                                          <div class="product-data">
+                                                              <a href="#"><%= categories[0]  %> </a>
+
+
+                                                          </div>
+                                                      </div>
+
+                                                  </div>
+
+                                             </td>
+
+                                              <td> <a><i class="fa fa-ellipsis-h fa-2x dot"></i></a>
+                                                  <ul class="little">
+                                                      <li><a>تعديل </a></li>
+                                                      <li><a>حذف</a></li>
+
+                                                  </ul>
+                                              </td>
+                                              <td><i class="fa fa-chevron-down"></i></td>
+
+
+                                          </tr>
                                             <%categories.forEach(function(category){ %>
                                             <tr>
 

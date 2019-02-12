@@ -15,6 +15,7 @@ var productModel = mongoose.model("product");
 
 var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
+
 Router.get('/addCategory',function(req,resp,next){
   //resp.json({msg:"add"});
   resp.render("content/addcatt.ejs");
@@ -43,7 +44,7 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
   if(errors){
     resp.json(errors);
   }else{
-        if(img){
+
 
                 ext=img.originalname;
                 ext2=ext.split('.');
@@ -51,7 +52,7 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
                 console.log(img.destination);
                 // console.log(img.destination+"/"+img.filename+'.'+ext2[1]);
                 // var NewPath = img.destination+"/"+img.filename+'.'+ext2[1];
-                fs.renameSync(req.file.path, req.file.destination+"/"+req.file.filename+"."+ext2[1] );
+                fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
                 console.log(img.path);
                 resp.json(req.file);
                 img = req.file.filename+'.'+ext2[1];
@@ -79,9 +80,7 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
                             }
 
                           });
-                    }else{
-                      resp.json({msg:"upload your img"})
-                    }
+                    
                   }
 });
 
