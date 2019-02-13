@@ -4,6 +4,7 @@ var BodyParser = require('body-parser');
 var expressValidato = require('express-validator');
 var BodyParserMid = BodyParser.urlencoded();//middle ware to get data from request body
 const path = require('path');
+const fs=require("fs");
 var mongoose = require("mongoose");
 require("../Model/product");
 require("../Model/subCategory");
@@ -48,11 +49,19 @@ Router.post("/addProduct/:subcatId",uploadMid.any(),function(req,resp){
         //   //   message:"enter your data"
         //   // });
         // }else{
+
+        var productimg = [];
           if (req.files.length > 0){
             for(var i=0 ; i < req.files.length ; i++ ){
-              if(req.files[i].fieldname === "imgs"){
-                imgs.push(req.files[i].filename);
-              }
+
+
+
+              ext=req.files[i].originalname;
+              ext2=ext.split('.');
+              fs.renameSync(req.files[i].path,req.files[i].destination+"/"+req.files[i].filename+'.'+ext2[1] );
+              productimg.push(req.files[i].filename+'.'+ext2[1])
+
+
             }//end for
           }// end if
           // umrahModel.find({name:req.body.name ,desc:req.body.desc,price:req.body.price,hotelName: req.body.hotelName,
@@ -68,7 +77,9 @@ Router.post("/addProduct/:subcatId",uploadMid.any(),function(req,resp){
                                 modelnumber:req.body.modelnumber,
                                 brandArabic:req.body.brandArabic,
                                 brandEnglish:req.body.brandEnglish,
-                                imgs:imgs,
+                                price1:req.body.price1,
+                                price2:req.body.price2,
+                                imgs:productimg,
                                 subcatId:req.params.subcatId,
                                 discount:req.body.discount,
                                 discriptionEnglish:req.body.discriptionEnglish,

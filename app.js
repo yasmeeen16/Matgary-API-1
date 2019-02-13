@@ -35,7 +35,7 @@ require('./Model/vendorData');
 var RouteCategory = require('./controller/category');
 server.use('/category',RouteCategory);
 require('./Model/Category');
-server.use("/",RouteCategory);
+
 
 var RouteProduct = require('./controller/product');
 server.use('/product',RouteProduct);
@@ -50,6 +50,16 @@ server.use('/offer',Routeoffer);
 
 var Routeadmin = require('./controller/admin');
 server.use('/admin',Routeadmin);
+
+
+var webuserRouts = require('./controller/webUser');
+server.use('/webUser',webuserRouts);
+
+
+var webadminRouts = require('./controller/webadmin');
+server.use('/webadmin',webadminRouts);
+server.use("/",webadminRouts);
+
 server.listen(PORT,function(){
   console.log('server listen at port number '+PORT);
 });

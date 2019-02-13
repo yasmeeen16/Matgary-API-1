@@ -79,15 +79,7 @@ console.log((req.params.catId));
       }
 //console.log(parseInt(req.param.catId));
 });
-Router.get('/allsubCategory/:catId',function(req,resp,next){
 
- //console.log(catId);
-    subCategoryModel.find({catId:req.params.catId}, function(err, subcategories) {
-                    //resp.json({  subcategories: subcategories});
-                    resp.render("content/subcat.ejs",{subcategories: subcategories});
-                  });
-
-});
 Router.get('/all_subCategory/:catId',function(req,resp,next){
 
  //console.log(catId);
@@ -107,4 +99,8 @@ Router.get('/all_subCategory',function(req,resp,next){
                   });
 
 });
+
+
+
+
 module.exports=Router;

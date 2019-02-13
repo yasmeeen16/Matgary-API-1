@@ -6,14 +6,14 @@
     <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title> Category </title>
+    <title> Products </title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/assets/css/animate.min.css" rel="stylesheet" />
+    <link href="/ssets/css/animate.min.css" rel="stylesheet" />
     <link href="/assets/css/dashboard.css?v=1.4.0" rel="stylesheet" />
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
@@ -31,11 +31,25 @@
 
 <body>
 
+    <!-- start popup modal -->
+
+    <div class=" hidden bg-modal">
+        <div class="modal-content">
+            <div class="close">
+                +
+            </div>
+
+            <p class="confirm">هل تريد الحذف</p>
+
+            <button class="ok" type="button" class="categorybutton">تاكيد</button>
+
+        </div>
+    </div>
+    <!-- end popup modal -->
+
     <div class="wrapper">
         <div class="sidebar">
-
-
-            <div class="sidebar-wrapper" style="text-align: center">
+      <div class="sidebar-wrapper" style="text-align: center">
                 <div class="logo" style="text-align: center">
                     <a href="#" style="color: white;">
 
@@ -83,9 +97,9 @@
         <div class="main-panel">
             <div class=" head container-fluid">
                 <div class="header">
-                    <a href="/">الرئيسية</a>
+                    <a href="/">الرئيسية </a>
                     <i class="fa fa-chevron-left"></i>
-                    <span>الاقسام الرئيسية</span>
+                    <span>المنتجات</span>
 
 
                 </div>
@@ -104,14 +118,15 @@
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li>
-                                    <button type="button"><a href="addcat.html">اضافه قسم  </a></button>
+                                <button type="button"><a href="add.html">اضافة منتجات</a></button>
                             </li>
+
+
+
                         </ul>
 
                         <ul class="nav navbar-nav navbar-left">
-                            <li>
-                                <input type="text" class="form-control" placeholder=" ...بحث">
-                            </li>
+
                             <li class="separator hidden-lg hidden-md"></li>
                         </ul>
                     </div>
@@ -127,49 +142,78 @@
                                 <div class="content table-responsive table-full-width">
                                     <table class="table">
                                         <thead>
-                                                <th>المنتج</th>
-<th style="width: 10%">Action</th>
+                                            <th>المنتج</th>
+                                            <th>الوصف</th>
+                                            <th>رقم الموديل</th>
+
                                         </thead>
                                         <tbody>
-                                            <%categories.forEach(function(category){ %>
+                                            <%products.forEach(function(product){ %>
                                             <tr>
-
                                                 <td>
-
-                                                  <div class="product">
-                                                        <div class="product-img"><img  src="/imgs/<%=category.img%>"></div>
+                                                    <div class="product">
+                                                        <div class="product-img"><img src="/imgs/<%=product.imgs[0]%>"> </div>
                                                         <div class="contain" style="display: flex;flex-direction: column">
+                                                            <div class="product-data">
+                                                                <a href="#"><%=product.Ename%></a>
 
-                                                             <div class="product-data">
-                                                                <a href="/webadmin/allsubCategory/<%= category._id %>"><%= category.Ename  %></a>
+                                                                <div>
+                                                                    <span><%=product.brandEnglish%></span> &nbsp;
+                                                                    <i class="fa fa-chevron-right"></i>
+                                                                    <span class="visble"><%=product.price2 / parseInt(product.discount) *100/4 %> LE</span>
+                                                                    &nbsp; | &nbsp;
 
+                                                                    <span><strike> <%=product.price2%>  LE</strike></span>
+                                                                </div>
 
                                                             </div>
                                                             <div class="product-data">
-                                                                <a href="#"><%= category.Aname  %> </a>
 
+                                                                <a href="#"><%=product.Aname%></a>
+
+                                                                <div>
+                                                                    <span><%=product.brandArabic%></span> &nbsp;
+                                                                    <i class="fa fa-chevron-right"></i>
+                                                                    <span class="visble"> جنية <%=product.price2 / parseInt(product.discount) *100/4 %></span>
+                                                                    &nbsp; | &nbsp;
+                                                                    <span><strike> جنية <%=product.price2%></strike></span>
+                                                                </div>
 
                                                             </div>
                                                         </div>
 
                                                     </div>
+                                                </td>
 
-                                               </td>
+                                                <td>
+                                                    <div>
+                                                        <p style="margin-bottom: 20px;"><%=product.discriptionEnglish%></p>
+                                                        <p style="margin-bottom: 20px;"><%=product.discriptionArabic%></p>
+                                                    </div>
+
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <p style="padding: 0px 20px;font-weight: 600;font-size:18px;margin-bottom: 50px;"><%=product.modelnumber%></p>
+
+                                                    </div>
+
+                                                </td>
 
                                                 <td> <a><i class="fa fa-ellipsis-h fa-2x dot"></i></a>
-                                                    <ul class="little">
-                                                        <li><a>تعديل </a></li>
-                                                        <li><a>حذف</a></li>
+                                                    <ul class="little text-right">
+                                                        <li><a href="view.html">عرض</a></li>
+                                                        <li><a href="edit.html">تعديل</a></li>
+                                                        <li><a class="del">حذف</a></li>
 
                                                     </ul>
                                                 </td>
-                                                <td><i class="fa fa-chevron-down"></i></td>
 
 
                                             </tr>
 
-                                            <%})%>
 
+                                            <%});%>
                                         </tbody>
                                     </table>
 
@@ -225,11 +269,19 @@
 
     </script>
     <script>
-//        $(document).ready(function() {
-//                    $(".fa-chevron-down").click(function() {
-//                            $("tbody tr").after(" <p>hello</p> ");
-//                            });
-//                    });
+        document.getElementsByClassName('ok')[0].addEventListener('click', function show() {
+            document.getElementsByClassName('bg-modal')[0].classList.add('hidden');
+        });
+        document.getElementsByClassName('close')[0].addEventListener('click', function show() {
+            document.getElementsByClassName('bg-modal')[0].classList.add('hidden');
+        });
+        var x = document.getElementsByClassName('del');
+        for (let a = 0; a < x.length; a++) {
+            document.getElementsByClassName('del')[a].addEventListener('click', function show() {
+                document.getElementsByClassName('bg-modal')[0].classList.remove('hidden');
+            });
+        }
+
     </script>
 
 </body>
