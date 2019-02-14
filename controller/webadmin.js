@@ -8,14 +8,17 @@ const fs = require("fs");
 var mongoose = require("mongoose");
 
 require("../Model/Category");
+require("../Model/offer");
 
 var categoryDataModel = mongoose.model("Category");
 var   subCategoryModel= mongoose.model("subCategory")
 require("../Model/product");
 var productModel = mongoose.model("product");
 
+var offerModel = mongoose.model("offer");
+
 var multer = require("multer");//to upload file
-var uploadMid = multer({dest:"./public/assets/img"});
+var uploadMid = multer({dest:"./public/imgs"});
 
 Router.get('/addCategory',function(req,resp,next){
   //resp.json({msg:"add"});
@@ -376,7 +379,67 @@ Router.post("/addproductToCat/:catId",uploadMid.any(),function(req,resp){
 });
 Router.get('/offers',function(req,resp,next){
   //resp.json({msg:"add"});
-  resp.render("content/offer.ejs");
+    offerModel.find({}, function(err, offers) {
+      resp.render("content/offer.ejs",{offers:offers});
+    });
+
 });
+Router.get('/addOffer',function(req,resp,next){
+  //resp.json({msg:"add"});
+  resp.render("content/addoffer.ejs");
+});
+Router.post('/addOffer',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
+// resp.json(req.file);
+//   var Ename = req.body.Ename;
+//   var Aname = req.body.Aname;
+   var img = req.file;
+// //resp.json(req.file)
+  if(!img){
+    resp.redirect("/webadmin/addOffer");
+    //resp.json({msg:"upload your img "})
+  }else{
+  req.checkBody('name','english name is empty').notEmpty();
+  let errors = req.validationErrors();
+  if(errors){
+    //resp.json(errors);
+    resp.redirect("/webadmin/addOffer");
+  }else{
+
+
+                ext=img.originalname;
+                ext2=ext.split('.');
+                console.log(img.path);
+                console.log(img.destination);
+                fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
+                console.log(img.path);
+                img = req.file.filename+'.'+ext2[1];
+                console.log(img);
+
+      offerModel.find({name:req.body.name}, function(err, offer) {
+                            if(offer.length > 0){
+                              //resp.json({ msg : "duplicate category" });
+                              resp.redirect("/webadmin/addOffer");
+                            }else{
+                              var myOffer = new offerModel({
+                                name:req.body.name,
+                                img:img,
+                                time:new Date()
+                              });
+                              myOffer.save(function(err,doc){
+                                if(err){
+                                  //resp.redirect("/webadmin/addOffer");
+                                  resp.json(err);
+                              }else{
+                                  console.log("saved")
+                                  resp.redirect("/webadmin/offers");
+                                  //resp.json(doc);
+                              }
+                              });
+                            }
+                          });
+                  }
+                }
+});
+
 
 module.exports=Router;

@@ -18,6 +18,20 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
 
+    <style >
+    #add:link, #add:visited {
+            background-color: #f44336;
+            color: white;
+            padding: 14px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            }
+
+            a:hover, a:active {
+            background-color: red;
+            }
+    </style>
 </head>
 
 <body>
@@ -32,94 +46,20 @@
 
                                 <div class="content table-responsive table-full-width">
                                     <table class="table">
-                                        <thead>
-                                            <th>المنتج</th>
-                                            <th>الوصف</th>
-                                            <th>رقم الموديل </th>
-
-                                        </thead>
+                                        <a id="add" href="/webadmin/addoffer">اضافه عرض</a>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                   <div class="product">
-                                                        <div class="product-img"><img src="assets/img/jacket.jpg"> </div>
-                                                        <div class="contain" style="display: flex;flex-direction: column">
-                                                            <div class="product-data">
-                                                                <a href="#">Offer</a>
-
-                                                                <div >
-                                                                    <span>Category</span> &nbsp;
-                                                                    <i class="fa fa-chevron-right"></i>
-                                                                    <span class="visble">Subcategry</span>
-                                                                    &nbsp; | &nbsp;
-                                                                    <span>1000$</span>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="product-data">
-                                                                <a href="#">اسم العرض</a>
-
-                                                                <div>
-                                                                    <span style="float: right">Category</span> &nbsp;
-                                                                    <i  style="float: right" class="fa fa-chevron-left"></i>
-                                                                    <span  style="float: right">Subcategry</span> &nbsp;
-                                                                    &nbsp; | &nbsp;
-                                                                    <span style="float: left">1000$</span>
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                </td>
-
-                                                <td>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</p>
-                                                </td>
-                                                <td>
-                                                    <p style="padding: 0px 20px;font-weight: 600;font-size:18px;">150</p>
-                                                </td>
-
-                                                <td> <a><i class="fa fa-ellipsis-h fa-2x dot"></i></a>
-                                                    <ul class="little">
-                                                        <li><a>Edit</a></li>
-                                                        <li><a>Delete</a></li>
-
-                                                    </ul>
-                                                </td>
-                                                <td><i class="fa fa-chevron-down"></i></td>
-
-                                            </tr>
-
-
-
+                                          <%offers.forEach(function(offer){ %>
                                             <tr>
                                                 <td>
                                                     <div class="product">
-                                                        <div class="product-img"><img src="assets/img/jacket.jpg"> </div>
+                                                        <div class="product-img"><img style="  border: 1px solid #ddd;  border-radius: 4px;padding: 5px;width: 500px!important;  height: 150px;border-radius: 5px;" src="/imgs/<%=offer.img%>"> </div>
 
-                                                        <div class="product-data">
-                                                            <a href="#">red pouration jacket</a>
-
-                                                            <div>
-                                                                <span>brand</span> &nbsp;
-                                                                <i class="fa fa-check text-success"></i>
-                                                                <span class="visble">after</span> &nbsp;|
-                                                                <i class="fa fa-times" style="color: gray"></i>
-                                                                <span>before</span>
-                                                            </div>
-
-                                                        </div>
                                                     </div>
                                                 </td>
 
+
                                                 <td>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</p>
-                                                </td>
-                                                <td>
-                                                    <p style="padding: 0px 20px;font-weight: 600;font-size:18px;">150</p>
+                                                    <p style="font-weight: 600;font-size:18px;"><%=offer.name%></p>
                                                 </td>
 
                                                 <td> <a><i class="fa fa-ellipsis-h fa-2x dot"></i></a>
@@ -131,7 +71,7 @@
                                                 </td>
 
                                             </tr>
-
+                                            <%});%>
                                         </tbody>
                                     </table>
 
