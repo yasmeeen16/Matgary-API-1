@@ -6,8 +6,8 @@ var BodyParserMid = BodyParser.urlencoded();//middle ware to get data from reque
 const path = require('path');
 const fs = require("fs");
 var mongoose = require("mongoose");
-var aws = require('aws-sdk')
-var multerS3 = require('multer-s3');
+// var aws = require('aws-sdk')
+// var multerS3 = require('multer-s3');
 var multer = require("multer");
 require("../Model/Category");
 require("../Model/offer");

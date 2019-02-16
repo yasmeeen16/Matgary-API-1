@@ -3,8 +3,8 @@ var express = require('express');
 var multer = require("multer");
 var server = express();
 var mongoose = require('mongoose');
-var aws = require('aws-sdk')
-var multerS3 = require('multer-s3')
+// var aws = require('aws-sdk')
+// var multerS3 = require('multer-s3')
 require('dotenv').config();
 //var bcrypt = require('bcrypt');
 var expressValidator = require('express-validator');
