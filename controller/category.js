@@ -85,4 +85,12 @@ Router.get('/allCategory',function(req,resp,next){
                   });
 
 });
+Router.get('/',function(req,resp,next){
+
+  categoryModel.find({}, function(err, categories) {
+                    //resp.render("content/listCat.ejs",{  categories:  categories});
+                    resp.json({  categories:  categories});
+                });
+
+});
 module.exports=Router;
