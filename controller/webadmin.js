@@ -6,12 +6,15 @@ var BodyParserMid = BodyParser.urlencoded();//middle ware to get data from reque
 const path = require('path');
 const fs = require("fs");
 var mongoose = require("mongoose");
-
+var aws = require('aws-sdk')
+var multerS3 = require('multer-s3');
+var multer = require("multer");
 require("../Model/Category");
 require("../Model/offer");
-
+require("../Model/vendorData")
 var categoryDataModel = mongoose.model("Category");
-var   subCategoryModel= mongoose.model("subCategory")
+var   subCategoryModel= mongoose.model("subCategory");
+var vendorDataModel=mongoose.model("vendorData");
 require("../Model/product");
 var productModel = mongoose.model("product");
 
@@ -19,7 +22,28 @@ var offerModel = mongoose.model("offer");
 
 var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
+// aws.config.update({
+//   secretAccessKey:'dIZlb2N1tz+vQ/hq3OwMGHfJZQBsFN35RpPCgLzM',
+//   accessKeyId:'AKIAIJSV5KGLB22TSEDQ',
+//   region:'us-east-2'
 
+// });
+// var s3 = new aws.S3();
+
+// var uploadMid = multer({
+// storage: multerS3({
+//   s3: s3,
+//   bucket: 'imgs-matgari',
+//   acl: 'public-read',
+//   metadata: function (req, file, cb) {
+//     cb(null, {fieldName: 'TESTING_META_DATA!'});
+//   },
+//   key: function (req, file, cb) {
+//     cb(null, Date.now().toString())
+//   }
+// })
+// })
+////////////////////////////////////
 Router.get('/addCategory',function(req,resp,next){
   //resp.json({msg:"add"});
   resp.render("content/addcat.ejs");
@@ -106,6 +130,61 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
 
 
 /////////////////////////////////My Project////////////////////////////////////////
+Router.get('/editCategory/:catId',function(req,resp,next){
+
+  categoryModel.findOne({_id:req.params.catId}, function(err, category) {
+    //console.log(categories[0].img);
+    resp.render("content/editcat.ejs",{category:category});
+                    //resp.render("content/listCat.ejs",{  categories:  categories});
+                    //resp.json({  categories:  categories});
+                });
+
+
+});
+Router.get('/deleteCategory/:id',function(req,resp,next){
+
+  categoryModel.remove({_id:req.params.id}, function(err, vendors) {
+    resp.redirect("/webadmin/listAllCategories");
+  });
+
+});
+
+  Router.post('/editCategory/:catId',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
+    //resp.json(req.file);
+    //   var Ename = req.body.Ename;
+    //   var Aname = req.body.Aname;
+       var img = req.file;
+    // //resp.json(req.file)
+      if(!img){
+        resp.redirect("/webadmin/listAllCategories");
+        //resp.json({msg:"upload your img "})
+      }else{
+      req.checkBody('Ename','english name is empty').notEmpty();
+      req.checkBody('Aname','arabic name is empty').notEmpty();
+    
+      let errors = req.validationErrors();
+      if(errors){
+        //resp.json(errors);
+        resp.redirect("/webadmin/listAllCategories");
+      }else{
+    
+    
+                    ext=img.originalname;
+                    ext2=ext.split('.');
+                    console.log(img.path);
+                    console.log(img.destination);
+                    fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
+                    console.log(img.path);
+                    img = req.file.filename+'.'+ext2[1];
+                    console.log(img);
+    
+          categoryDataModel.update({_id:req.params.catId},{Aname:req.body.Aname,Ename:req.body.Ename,img:img}, function(err, category) {
+                    resp.redirect("/webadmin/listAllCategories");
+                              });
+                      }
+                    }
+    });
+    
 //all sub categories bage
 Router.get('/ListOfsubCategory',function(req,resp,next){
 
@@ -389,7 +468,7 @@ Router.get('/addOffer',function(req,resp,next){
   resp.render("content/addoffer.ejs");
 });
 Router.post('/addOffer',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
-// resp.json(req.file);
+
 //   var Ename = req.body.Ename;
 //   var Aname = req.body.Aname;
    var img = req.file;
@@ -439,6 +518,60 @@ Router.post('/addOffer',[BodyParserMid,uploadMid.single('img')],function(req,res
                           });
                   }
                 }
+});
+Router.get('/vendors',function(req,resp,next){
+  //resp.json({msg:"add"});
+    vendorDataModel.find({}, function(err, vendors) {
+      resp.render("content/vendordata.ejs",{vendors:vendors});
+    });
+
+});
+Router.get('/activevendors/:id',function(req,resp,next){
+
+    vendorDataModel.update({_id:req.params.id},{Status:1}, function(err, vendors) {
+      resp.redirect("/webadmin/vendors");
+    });
+
+});
+Router.get('/unactivevendors/:id',function(req,resp,next){
+
+  vendorDataModel.update({_id:req.params.id},{Status:0}, function(err, vendors) {
+    resp.redirect("/webadmin/vendors");
+  });
+
+});
+Router.get('/deleteoffer/:id',function(req,resp,next){
+
+  offerModel.remove({_id:req.params.id}, function(err, vendors) {
+    resp.redirect("/webadmin/offers");
+  });
+
+});
+Router.get('/editoffer/:id',function(req,resp,next){
+
+  offerModel.findOne({_id:req.params.id}, function(err, offer) {
+    resp.render("content/editoffer.ejs",{offer:offer});
+  });
+
+});
+Router.post('/editOffer/:id',uploadMid.single('img'),function(req,resp,next){
+
+  var img = req.file;
+
+               ext=img.originalname;
+               ext2=ext.split('.');
+               console.log(img.path);
+               console.log(img.destination);
+               fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
+               console.log(img.path);
+               img = req.file.filename+'.'+ext2[1];
+               console.log(img);
+
+  offerModel.update({_id:req.params.id},{name:req.body.name,img:img}, function(err, offer) {
+    resp.redirect("/webadmin/offers");
+  });
+
+
 });
 
 

@@ -14,7 +14,7 @@ require("../Model/product");
 var productModel = mongoose.model("product");
 
 var multer = require("multer");//to upload file
-var uploadMid = multer({dest:"./public/imgs"});
+var uploadMid = multer({dest:"../public/imgs"});
 
 Router.get('/addCategory',function(req,resp,next){
   //resp.json({msg:"add"});
@@ -24,6 +24,7 @@ var categoryModel = mongoose.model("Category");
 
 Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
 //resp.json(req.file);
+
 //   var Ename = req.body.Ename;
 //   var Aname = req.body.Aname;
    var img = req.file;
