@@ -3,9 +3,7 @@ var express = require('express');
 var multer = require("multer");
 var server = express();
 var mongoose = require('mongoose');
-
 require('dotenv').config();
-//var bcrypt = require('bcrypt');
 var expressValidator = require('express-validator');
 server.use(expressValidator());
 var path = require("path");
@@ -21,10 +19,6 @@ server.set('views', path.join(__dirname, 'views'));
 server.set("view engine","ejs");
 server.set("views","./views");
 server.use(express.static(path.join(__dirname, 'public')));
-
-
-
-//////////////////////////////
 
 var uploadMid = multer({dest:"./public/imgs"});
 
@@ -53,17 +47,17 @@ require('./Model/subCategory');
 var Routeoffer = require('./controller/offer');
 server.use('/offer',Routeoffer);
 
-var Routeadmin = require('./controller/admin');
-server.use('/admin',Routeadmin);
-
-
-var webuserRouts = require('./controller/webUser');
-server.use('/webUser',webuserRouts);
-
-
-var webadminRouts = require('./controller/webadmin');
-server.use('/webadmin',webadminRouts);
-
+// var Routeadmin = require('./controller/admin');
+// server.use('/admin',Routeadmin);
+//
+//
+// var webuserRouts = require('./controller/webUser');
+// server.use('/webUser',webuserRouts);
+//
+//
+// var webadminRouts = require('./controller/webadmin');
+// server.use('/webadmin',webadminRouts);
+// server.use("/",webadminRouts);
 
 server.listen(PORT,function(){
   console.log('server listen at port number '+PORT);
