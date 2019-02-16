@@ -6,8 +6,7 @@ var BodyParserMid = BodyParser.urlencoded();//middle ware to get data from reque
 const path = require('path');
 const fs = require("fs");
 var mongoose = require("mongoose");
-// var aws = require('aws-sdk')
-// var multerS3 = require('multer-s3');
+
 var multer = require("multer");
 require("../Model/Category");
 require("../Model/offer");
@@ -22,27 +21,7 @@ var offerModel = mongoose.model("offer");
 
 var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
-// aws.config.update({
-//   secretAccessKey:'dIZlb2N1tz+vQ/hq3OwMGHfJZQBsFN35RpPCgLzM',
-//   accessKeyId:'AKIAIJSV5KGLB22TSEDQ',
-//   region:'us-east-2'
 
-// });
-// var s3 = new aws.S3();
-
-// var uploadMid = multer({
-// storage: multerS3({
-//   s3: s3,
-//   bucket: 'imgs-matgari',
-//   acl: 'public-read',
-//   metadata: function (req, file, cb) {
-//     cb(null, {fieldName: 'TESTING_META_DATA!'});
-//   },
-//   key: function (req, file, cb) {
-//     cb(null, Date.now().toString())
-//   }
-// })
-// })
 ////////////////////////////////////
 Router.get('/addCategory',function(req,resp,next){
   //resp.json({msg:"add"});

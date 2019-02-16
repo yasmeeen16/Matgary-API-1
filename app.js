@@ -6,7 +6,6 @@ var mongoose = require('mongoose');
 // var aws = require('aws-sdk')
 // var multerS3 = require('multer-s3')
 require('dotenv').config();
-//var bcrypt = require('bcrypt');
 var expressValidator = require('express-validator');
 server.use(expressValidator());
 var path = require("path");
